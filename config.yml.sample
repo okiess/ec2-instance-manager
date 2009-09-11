@@ -1,0 +1,24 @@
+default:
+  amazon_access_key_id: 
+  amazon_secret_access_key: 
+  amazon_account_number: 
+  key: 
+  availability_zone: eu-west-1a
+  instance_type: m1.small
+
+customer1:
+  amazon_access_key_id: 
+  amazon_secret_access_key: 
+  amazon_account_number: 
+  key: 
+  availability_zone: eu-west-1a
+  instance_type: m1.small
+  
+customer2:
+  amazon_access_key_id: 
+  amazon_secret_access_key: 
+  amazon_account_number: 
+  key: 
+  availability_zone: eu-west-1a
+  instance_type: m1.small
+
