@@ -26,6 +26,8 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "bin/ec2_instance_manager",
+     "config.yml.sample",
+     "ec2-instance-manager.gemspec",
      "lib/ec2_instance_manager.rb",
      "lib/ec2_methods.rb",
      "test/ec2-instance-manager_test.rb",
