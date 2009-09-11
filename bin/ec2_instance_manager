@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "lib/ec2_instance_manager"
+
+# Create and run the application
+app = Ec2InstanceManager.new(ARGV, STDIN)
+app.run
