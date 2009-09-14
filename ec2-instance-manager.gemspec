@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "VERSION",
      "bin/ec2-instance-manager",
      "config.yml.sample",
+     "ec2-instance-manager.gemspec",
      "lib/ec2-instance-manager.rb",
      "lib/ec2-instance-manager/ec2_instance_manager.rb",
      "lib/ec2-instance-manager/status.rb",
