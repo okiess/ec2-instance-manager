@@ -1,13 +1,13 @@
-module Ec2Methods
+module Status
   def get_instance_state(instance_id)
-    result = @ec2.describe_instances(:instance_id => instance_id)
+    result = ec2.describe_instances(:instance_id => instance_id)
     instance_state = result["reservationSet"]["item"].first["instancesSet"]["item"].first["instanceState"]["name"]
     dns_name = result["reservationSet"]["item"].first["instancesSet"]["item"].first["dnsName"]
     return instance_state, dns_name
   end
 
   def display_ami_ids(owner_id = nil)
-    result = @ec2.describe_images(:owner_id => owner_id || @config[@customer_key]['amazon_account_number'])
+    result = ec2.describe_images(:owner_id => owner_id || config[@customer_key]['amazon_account_number'])
     if result and result["imagesSet"]
       result["imagesSet"]["item"].each {|image| puts "#{image["imageId"]} - #{image["imageLocation"]}"}
     else
@@ -16,7 +16,7 @@ module Ec2Methods
   end
   
   def display_instances
-    result = @ec2.describe_instances
+    result = ec2.describe_instances
     if result and result["reservationSet"]
       result["reservationSet"]["item"].each do |item|
         instance_id = item["instancesSet"]["item"].first["instanceId"]
@@ -31,7 +31,7 @@ module Ec2Methods
   end
   
   def display_addresses
-    result = @ec2.describe_addresses
+    result = ec2.describe_addresses
     if result and result["addressesSet"]
       result["addressesSet"]["item"].each do |ip|
         puts "#{ip["publicIp"]} => #{ip["instanceId"].nil? ? 'unassigned' : ip["instanceId"]}"
@@ -42,7 +42,7 @@ module Ec2Methods
   end
 
   def display_volumes
-    result = @ec2.describe_volumes
+    result = ec2.describe_volumes
     if result and result["volumeSet"]
       result["volumeSet"]["item"].each do |vol|
         instance_id = nil
