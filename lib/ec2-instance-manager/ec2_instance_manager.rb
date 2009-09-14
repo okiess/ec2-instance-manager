@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/status'
 
 class Ec2InstanceManager
   include Status
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
   
   attr_reader :config, :customer_key
 
