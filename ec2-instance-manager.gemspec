@@ -5,15 +5,15 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ec2-instance-manager}
-  s.version = "0.1.0"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Oliver Kiessler"]
-  s.date = %q{2009-09-11}
-  s.default_executable = %q{ec2_instance_manager}
+  s.date = %q{2009-09-14}
+  s.default_executable = %q{ec2-instance-manager}
   s.description = %q{Launches EC2 instances for multiple AWS accounts}
   s.email = %q{kiessler@inceedo.com}
-  s.executables = ["ec2_instance_manager"]
+  s.executables = ["ec2-instance-manager"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -25,11 +25,11 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
-     "bin/ec2_instance_manager",
+     "bin/ec2-instance-manager",
      "config.yml.sample",
-     "ec2-instance-manager.gemspec",
-     "lib/ec2_instance_manager.rb",
-     "lib/ec2_methods.rb",
+     "lib/ec2-instance-manager.rb",
+     "lib/ec2-instance-manager/ec2_instance_manager.rb",
+     "lib/ec2-instance-manager/status.rb",
      "test/ec2-instance-manager_test.rb",
      "test/test_helper.rb"
   ]
