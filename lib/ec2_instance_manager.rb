@@ -15,7 +15,15 @@ class Ec2InstanceManager
   def initialize(arguments, stdin)
     @arguments = arguments
     @stdin = stdin
-    @config = YAML.load(File.read("config.yml"))
+    if File.exists?("config.yml")
+      @config = YAML.load(File.read("config.yml"))
+    else
+      begin
+        @config = YAML.load(File.read("#{ENV['HOME']}/.ec2_instance_manager_config.yml"))
+      rescue Errno::ENOENT
+        raise "config.yml expected in current directory or ~/.ec2_instance_manager_config.yml"
+      end
+    end
   end
 
   def run
