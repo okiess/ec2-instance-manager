@@ -2,6 +2,16 @@
 
 require File.dirname(__FILE__) + '/../lib/ec2-instance-manager'
 
+if ENV['AMAZON_ACCESS_KEY_ID'].nil? or ENV['AMAZON_SECRET_ACCESS_KEY'].nil?
+  if ENV['AMAZON_ACCESS_KEY_ID'].nil?
+    puts "Please set your AMAZON_ACCESS_KEY_ID environment variable (for your default account)."
+  end
+  if ENV['AMAZON_SECRET_ACCESS_KEY'].nil?
+    puts "Please set your AMAZON_SECRET_ACCESS_KEY environment variable (for your default account)."
+  end
+  exit
+end
+
 # Create and run the application
 app = Ec2InstanceManager.new(ARGV, STDIN)
 app.run
