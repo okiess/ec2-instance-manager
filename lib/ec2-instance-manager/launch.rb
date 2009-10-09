@@ -49,4 +49,26 @@ module Launch
       end
     end
   end
+  
+  def terminate(wait = true)
+    instances = get_running_instances_list
+    if instances and instances.any?
+      puts
+      puts "Warning: Terminating all instances: #{instances.join(", ")}"
+      puts "Please cancel within the next 5 seconds..."
+      sleep 5
+      ec2.terminate_instances(:instance_id => instances)
+      puts
+      puts "All instances are going to terminate now."
+    end
+  end
+
+  def get_running_instances_list
+    result = ec2.describe_instances
+    if result and result["reservationSet"]
+      result["reservationSet"]["item"].collect do |item|
+        item["instancesSet"]["item"].first["instanceId"] if item["instancesSet"]["item"].first["instanceState"]["name"] == 'running'
+      end
+    end
+  end
 end

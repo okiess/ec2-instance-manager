@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 require "rubygems"
+require 'optparse'
+
 gem 'amazon-ec2'
 require 'AWS'
 
