@@ -10,6 +10,7 @@ begin
     gem.email = "kiessler@inceedo.com"
     gem.homepage = "http://github.com/okiess/ec2-instance-manager"
     gem.authors = ["Oliver Kiessler"]
+    gem.add_dependency "amazon-ec2"
     gem.add_development_dependency "thoughtbot-shoulda"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
