@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ec2-instance-manager}
-  s.version = "0.2.1"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Oliver Kiessler"]
-  s.date = %q{2009-10-09}
+  s.date = %q{2009-10-16}
   s.default_executable = %q{ec2-instance-manager}
   s.description = %q{Launches EC2 instances for multiple AWS accounts}
   s.email = %q{kiessler@inceedo.com}
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
      "lib/ec2-instance-manager.rb",
      "lib/ec2-instance-manager/ec2_instance_manager.rb",
      "lib/ec2-instance-manager/launch.rb",
+     "lib/ec2-instance-manager/output.rb",
      "lib/ec2-instance-manager/status.rb",
      "test/ec2-instance-manager_test.rb",
      "test/test_helper.rb"
