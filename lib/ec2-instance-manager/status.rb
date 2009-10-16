@@ -23,13 +23,13 @@ module Status
         ami_id = item["instancesSet"]["item"].first["imageId"]
         running_state = item["instancesSet"]["item"].first["instanceState"]["name"]
         dns_name = item["instancesSet"]["item"].first["dnsName"]
-        puts "Instance Id: #{instance_id} - #{running_state} (AMI Id: #{ami_id}) #{dns_name}"
+        puts "Instance Id: #{instance_id} - #{output_running_state(running_state)} (AMI Id: #{ami_id}) #{dns_name}"
       end
     else
       puts "No instances."
     end
   end
-  
+    
   def display_addresses
     result = ec2.describe_addresses
     if result and result["addressesSet"]

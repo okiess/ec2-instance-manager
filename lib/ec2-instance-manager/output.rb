@@ -1,0 +1,25 @@
+module Output
+  def output_running_state(running_state)
+    if running_state == 'running'
+      green(running_state)
+    elsif running_state == 'terminated'
+      red(running_state)
+    elsif running_state == 'pending'
+      yellow(running_state)
+    else
+      running_state
+    end
+  end
+  
+  def green(str)
+    "\033[32m#{str}\033[0m" 
+  end
+  
+  def red(str)
+    "\033[31m#{str}\033[0m"
+  end
+  
+  def yellow(str)
+    "\033[33m#{str}\033[0m"
+  end
+end

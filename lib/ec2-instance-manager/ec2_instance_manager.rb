@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/status'
 require File.dirname(__FILE__) + '/launch'
+require File.dirname(__FILE__) + '/output'
 
 class Ec2InstanceManager
-  include Status
-  include Launch
-  VERSION = '0.2'
+  include Status, Launch, Output
+  VERSION = '0.3'
   
   attr_reader :config, :customer_key, :options
 
@@ -14,7 +14,7 @@ class Ec2InstanceManager
     options = {}
     
     optparse = OptionParser.new do |opts|
-      opts.banner = "Usage: ec2-instance-manager [options]"
+      opts.banner = "Usage: ec2-instance-manager #{VERSION} [options]"
 
       options[:status] = false
       opts.on( '-s', '--status', 'Status only' ) do
@@ -25,7 +25,12 @@ class Ec2InstanceManager
       opts.on( '-t', '--terminate-all', 'Terminates all instances running under a config key' ) do
         options[:terminate] = true
       end
-      
+
+      options[:start_launch_plan] = false
+      opts.on( '-l', '--start-launch-plan', 'Starts a launch plan under a config key' ) do
+        options[:start_launch_plan] = true
+      end
+
       options[:config] = nil
       opts.on( '-c', '--config CONFIG_KEY', 'Sets the config key' ) do |key|
         options[:config] = key
@@ -44,9 +49,11 @@ class Ec2InstanceManager
   def config; @config ||= read_config; end
   def read_config
     if File.exists?("config.yml")
+      puts "Using config in this directory"
       @config = YAML.load(File.read("config.yml"))
     else
       begin
+        puts "Using config in your home directory"
         @config = YAML.load(File.read("#{ENV['HOME']}/.ec2_instance_manager_config.yml"))
       rescue Errno::ENOENT
         raise "config.yml expected in current directory or ~/.ec2_instance_manager_config.yml"
@@ -60,7 +67,7 @@ class Ec2InstanceManager
   end
 
   def run
-    puts "EC2 Instance Manager"
+    puts "EC2 Instance Manager #{VERSION}"
     puts
     unless options[:config]
       puts "Which customer config do you want to use? (#{config.keys.join(", ")})"
@@ -71,7 +78,7 @@ class Ec2InstanceManager
       @customer_key = options[:config]
     end
 
-    puts "Configuration: #{@customer_key}"
+    puts "Configuration Key: #{@customer_key}"
     puts "AMAZON_ACCESS_KEY_ID: #{config[@customer_key]['amazon_access_key_id']}"
     puts "KEY: #{config[@customer_key]['key']}"
     puts "ZONE: #{config[@customer_key]['availability_zone']}"
@@ -81,6 +88,8 @@ class Ec2InstanceManager
 
     if options[:terminate]
       terminate
+    elsif options[:start_launch_plan]
+      start_launch_plan
     else
       launch unless options[:status]
     end

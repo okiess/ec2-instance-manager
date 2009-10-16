@@ -5,6 +5,11 @@ default:
   key: 
   availability_zone: eu-west-1a
   instance_type: m1.small
+  launch_plan:
+    group1:
+      "ami_id_xxx1": 1
+    group2:
+      "ami_id_xxx2": 1  
 
 customer1:
   amazon_access_key_id: 
@@ -21,4 +26,6 @@ customer2:
   key: 
   availability_zone: eu-west-1a
   instance_type: m1.small
-
+  launch_plan:
+    group1:
+      ami_id_xxx1: 1
