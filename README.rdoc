@@ -2,12 +2,21 @@
 
 Simple EC2 Instance Manager that is able to work with multiple AWS accounts (in config.yml). See config.yml.sample.
 
-Create a "config.yml" in the current directory and run "ec2_instance_manager". You can launch & terminate instances, assign public IP's and
-attach volumes.
+Create a "config.yml" in the current directory and run "ec2_instance_manager". You can launch & terminate instances, create whole launch plans, start all launch plan groups or start an individual launch plan group, assign public IP's and attach volumes.
 
 Run ec2-instance-manager --help for options and commands.
 
 This gem should be considered ALPHA! More features to come...
+
+== Installation
+
+sudo gem install amazon-ec2
+
+sudo gem install ec2-instance-manager (Gemcutter)
+
+or
+
+sudo gem install okiess-ec2-instance-manager (Github)
 
 == Note on Patches/Pull Requests
  

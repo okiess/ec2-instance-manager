@@ -9,9 +9,9 @@ module Status
   def display_ami_ids(owner_id = nil)
     result = ec2.describe_images(:owner_id => owner_id || config[@customer_key]['amazon_account_number'])
     if result and result["imagesSet"]
-      result["imagesSet"]["item"].each {|image| puts "#{image["imageId"]} - #{image["imageLocation"]}"}
+      result["imagesSet"]["item"].each {|image| puts "#{white(image["imageId"])} - #{image["imageLocation"]}"}
     else
-      puts "No images."
+      puts white("No images.")
     end
   end
   
@@ -23,10 +23,10 @@ module Status
         ami_id = item["instancesSet"]["item"].first["imageId"]
         running_state = item["instancesSet"]["item"].first["instanceState"]["name"]
         dns_name = item["instancesSet"]["item"].first["dnsName"]
-        puts "Instance Id: #{instance_id} - #{output_running_state(running_state)} (AMI Id: #{ami_id}) #{dns_name}"
+        puts "Instance Id: #{white(instance_id)} - #{output_running_state(running_state)} (AMI Id: #{white(ami_id)}) #{dns_name}"
       end
     else
-      puts "No instances."
+      puts white("No instances.")
     end
   end
     
@@ -34,10 +34,10 @@ module Status
     result = ec2.describe_addresses
     if result and result["addressesSet"]
       result["addressesSet"]["item"].each do |ip|
-        puts "#{ip["publicIp"]} => #{ip["instanceId"].nil? ? 'unassigned' : ip["instanceId"]}"
+        puts "#{white(ip["publicIp"])} => #{ip["instanceId"].nil? ? 'unassigned' : ip["instanceId"]}"
       end
     else
-      puts "No addresses."
+      puts white("No addresses.")
     end
   end
 
@@ -49,10 +49,10 @@ module Status
         if vol["attachmentSet"]
           instance_id = vol["attachmentSet"]["item"].first["instanceId"]
         end
-        puts "#{vol["volumeId"]} (Size: #{vol["size"]} / Zone: #{vol["availabilityZone"]}) - #{vol["status"]} => #{instance_id.nil? ? 'unassigned' : instance_id}"
+        puts "#{white(vol["volumeId"])} (Size: #{vol["size"]} / Zone: #{vol["availabilityZone"]}) - #{vol["status"]} => #{instance_id.nil? ? 'unassigned' : instance_id}"
       end
     else
-      puts "No volumes."
+      puts white("No volumes.")
     end
   end
 

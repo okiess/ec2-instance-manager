@@ -14,8 +14,8 @@ module Launch
     instance_state = nil
     while(instance_state != 'running')
       instance_state, dns_name = get_instance_state(instance_id)
-      puts "=> Checking for running state... #{instance_state}"
-      puts "=> Public DNS: #{dns_name}" if instance_state == 'running'
+      puts "=> Checking for running state... #{output_running_state(instance_state)}"
+      puts "=> Public DNS: #{white(dns_name)}" if instance_state == 'running'
       sleep 10 unless instance_state == 'running'
     end
 
@@ -49,15 +49,14 @@ module Launch
     instances = get_running_instances_list
     if instances and instances.any?
       puts
-      puts red("Warning: Terminating all instances: #{instances.join(", ")}")
-      puts red("Please cancel within the next 5 seconds...")
+      cancel_message(instances)
       sleep 5
       ec2.terminate_instances(:instance_id => instances)
       puts
-      puts "All instances are going to terminate now."
+      puts white("All instances are going to terminate now.")
     else
       puts
-      puts "No running instances."
+      puts white("No running instances.")
     end
   end
 
@@ -66,22 +65,39 @@ module Launch
     puts
     puts "Your Launch Plan:"
     if config[@customer_key]["launch_plan"] and config[@customer_key]["launch_plan"].any?
-      config[@customer_key]["launch_plan"].keys.sort.each do |launch_plan_group|
-        puts
-        puts "Group: #{launch_plan_group}"
-        if config[@customer_key]["launch_plan"][launch_plan_group] and config[@customer_key]["launch_plan"][launch_plan_group].any?
-          config[@customer_key]["launch_plan"][launch_plan_group].keys.each do |ami_id|
-            puts "#{ami_id} => #{config[@customer_key]["launch_plan"][launch_plan_group][ami_id]} Instances to launch"
-            ami_ids_to_launch << [ami_id, config[@customer_key]["launch_plan"][launch_plan_group][ami_id]]
+      
+      launch_plan_groups = config[@customer_key]["launch_plan"].keys.sort
+      
+      if self.options[:group]
+        puts 
+        puts "Existing groups: #{launch_plan_groups.join(", ")}"
+        if launch_plan_groups.include?(self.options[:group])
+          puts "Targeted Group: #{self.options[:group]}"
+          config[@customer_key]["launch_plan"][self.options[:group]].each do |ami_id|
+            puts "#{ami_id[0]} => #{ami_id[1]} Instances to launch"
+            ami_ids_to_launch << [ami_id[0], ami_id[1]]
           end
         else
-          puts "No Ami Id's to launch defined."
+          puts white("Targeted Launch plan group '#{self.options[:group]}' not found.")
+        end
+      else
+        launch_plan_groups.each do |launch_plan_group|
+          puts
+          puts "Group: #{launch_plan_group}"
+          if config[@customer_key]["launch_plan"][launch_plan_group] and config[@customer_key]["launch_plan"][launch_plan_group].any?
+            config[@customer_key]["launch_plan"][launch_plan_group].keys.each do |ami_id|
+              puts "#{ami_id} => #{config[@customer_key]["launch_plan"][launch_plan_group][ami_id]} Instances to launch"
+              ami_ids_to_launch << [ami_id, config[@customer_key]["launch_plan"][launch_plan_group][ami_id]]
+            end
+          else
+            puts white("No Ami Id's to launch defined.")
+          end
         end
       end
       
       puts
       puts red("Warning: Now launching your plan...")
-      puts red("Please cancel within the next 5 seconds...")
+      puts red("Please cancel within the next 5 seconds if this isn't want you want...")
       puts
       sleep 5
       
@@ -92,9 +108,9 @@ module Launch
         }
       end
 
-      puts "All instances are launching now..."
+      puts white("All instances are launching now...")
     else
-      puts "No launch groups defined."
+      puts white("No launch plan groups defined.")
     end
   end
   

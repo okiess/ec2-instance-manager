@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/output'
 
 class Ec2InstanceManager
   include Status, Launch, Output
-  VERSION = '0.3'
+  VERSION = '0.3.1'
   
   attr_reader :config, :customer_key, :options
 
@@ -29,6 +29,11 @@ class Ec2InstanceManager
       options[:start_launch_plan] = false
       opts.on( '-l', '--start-launch-plan', 'Starts a launch plan under a config key' ) do
         options[:start_launch_plan] = true
+      end
+      
+      options[:group] = nil
+      opts.on( '-g', '--group LAUNCH_GROUP_NAME', 'Starts a launch plan group under a config key' ) do |group|
+        options[:group] = group
       end
 
       options[:config] = nil
@@ -67,7 +72,7 @@ class Ec2InstanceManager
   end
 
   def run
-    puts "EC2 Instance Manager #{VERSION}"
+    puts white("EC2 Instance Manager #{VERSION}")
     puts
     unless options[:config]
       puts "Which customer config do you want to use? (#{config.keys.join(", ")})"
