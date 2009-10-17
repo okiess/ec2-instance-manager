@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ec2-instance-manager}
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Oliver Kiessler"]
-  s.date = %q{2009-10-16}
+  s.date = %q{2009-10-17}
   s.default_executable = %q{ec2-instance-manager}
   s.description = %q{Launches EC2 instances for multiple AWS accounts}
   s.email = %q{kiessler@inceedo.com}
@@ -51,11 +51,14 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<amazon-ec2>, [">= 0"])
       s.add_development_dependency(%q<thoughtbot-shoulda>, [">= 0"])
     else
+      s.add_dependency(%q<amazon-ec2>, [">= 0"])
       s.add_dependency(%q<thoughtbot-shoulda>, [">= 0"])
     end
   else
+    s.add_dependency(%q<amazon-ec2>, [">= 0"])
     s.add_dependency(%q<thoughtbot-shoulda>, [">= 0"])
   end
 end
