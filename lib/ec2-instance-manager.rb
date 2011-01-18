@@ -2,6 +2,7 @@
 
 require "rubygems"
 require 'optparse'
+require 'yaml'
 
 gem 'amazon-ec2'
 require 'AWS'

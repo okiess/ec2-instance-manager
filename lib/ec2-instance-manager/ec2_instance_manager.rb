@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/output'
 
 class Ec2InstanceManager
   include Status, Launch, Output
-  VERSION = '0.3.1'
+  VERSION = '0.4.0'
   
   attr_reader :config, :customer_key, :options
 
@@ -67,8 +67,9 @@ class Ec2InstanceManager
   end
 
   def ec2
-    @ec2 ||= AWS::EC2::Base.new(:access_key_id => config[@customer_key]['amazon_access_key_id'],
-      :secret_access_key => config[@customer_key]['amazon_secret_access_key'])
+    @ec2 = AWS::EC2::Base.new(:access_key_id => config[@customer_key]['amazon_access_key_id'],
+      :secret_access_key => config[@customer_key]['amazon_secret_access_key'],
+      :server => config[@customer_key]['ec2_server_region'])
   end
 
   def run
