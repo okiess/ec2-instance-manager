@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Ec2InstanceManagerTest < Test::Unit::TestCase
-  should "test" do
+  def test_truth
     assert true
   end
 end

@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     ".document",
      ".gitignore",
      "LICENSE",
-     "README.rdoc",
+     "README.md",
      "Rakefile",
      "VERSION",
      "bin/ec2-instance-manager",
@@ -52,13 +52,10 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<amazon-ec2>, [">= 0"])
-      s.add_development_dependency(%q<shoulda>, [">= 0"])
     else
       s.add_dependency(%q<amazon-ec2>, [">= 0"])
-      s.add_dependency(%q<shoulda>, [">= 0"])
     end
   else
     s.add_dependency(%q<amazon-ec2>, [">= 0"])
-    s.add_dependency(%q<shoulda>, [">= 0"])
   end
 end
