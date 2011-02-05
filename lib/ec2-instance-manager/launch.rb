@@ -78,7 +78,7 @@ module Launch
               puts "#{ami_id[0]} => #{ami_id[1]} Instances to launch"
               ami_ids_to_launch << [ami_id[0], ami_id[1]]
             else
-              puts "#{ami_id[0]} => Detailed launch"
+              puts "#{ami_id[0]} => Detailed launch: #{ami_id[1]}"
               detailed_ami_ids_to_launch << [ami_id[0], ami_id[1]]
             end
           end
@@ -95,7 +95,7 @@ module Launch
                 puts "#{ami_id} => #{config[@customer_key]["launch_plan"][launch_plan_group][ami_id]} Instances to launch"
                 ami_ids_to_launch << [ami_id, config[@customer_key]["launch_plan"][launch_plan_group][ami_id]]
               else
-                puts "#{ami_id} => Detailed launch"
+                puts "#{ami_id} => Detailed launch: #{config[@customer_key]["launch_plan"][launch_plan_group][ami_id]}"
                 detailed_ami_ids_to_launch << [ami_id, config[@customer_key]["launch_plan"][launch_plan_group][ami_id]]
               end
             end
@@ -122,7 +122,9 @@ module Launch
         ami_id = group_ami_id_pair[0]
         instance_assignments = group_ami_id_pair[1].split(";")
         puts "Launching #{ami_id} with detailed information..."
-        result = launch_ami(ami_id)
+        
+        architecture = instance_assignments[0]; instance_type = instance_assignments[1]
+        result = launch_ami(ami_id, {:instance_type => instance_type, :architecture => architecture})
         if result and result["instancesSet"]["item"] and (instance_id = result["instancesSet"]["item"][0]["instanceId"])
           instance_state = ''
           while(instance_state != 'running') do
@@ -131,13 +133,13 @@ module Launch
             sleep 5
           end
 
-          if instance_assignments[0] and not instance_assignments[0].empty?
-            puts "Associating IP #{instance_assignments[0]}..."
-            result = ec2.associate_address(:instance_id => instance_id, :public_ip => instance_assignments[0])
+          if instance_assignments[2] and not instance_assignments[2].empty?
+            puts "Associating IP #{instance_assignments[2]}..."
+            result = ec2.associate_address(:instance_id => instance_id, :public_ip => instance_assignments[2])
           end
           
-          if instance_assignments[1] and not instance_assignments[1].empty?
-            volumes = instance_assignments[1].split(",")
+          if instance_assignments[3] and not instance_assignments[3].empty?
+            volumes = instance_assignments[3].split(",")
             volumes.each do |volume_pair|
               volume = volume_pair.split("@")
               puts "Attaching volume #{volume[0]} at mount point #{volume[1]}..."
@@ -161,7 +163,10 @@ module Launch
     	:architecture => config[@customer_key]['architecture'],
     	:image_id => ami_id
     }
-    ec2.run_instances(default_options.merge(options))
+    
+    run_options = default_options.merge(options)
+    puts "Launch Options: #{run_options.inspect}"
+    ec2.run_instances(run_options)
   end
 
   private

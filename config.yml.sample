@@ -13,7 +13,7 @@ default:
     group2:
       "ami_id_xxx2": 1
 	detailed:
-	  "ami_id_xxx3": "192.168.1.1;vol-xxx1@/dev/sdf,vol-xxx2@/dev/sdg"
+	  "ami_id_xxx3": "x86_64;t1.micro;192.168.1.1;vol-xxx1@/dev/sdf,vol-xxx2@/dev/sdg"
 
 customer1:
   amazon_access_key_id: 
