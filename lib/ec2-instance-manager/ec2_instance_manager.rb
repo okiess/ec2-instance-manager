@@ -22,22 +22,22 @@ class Ec2InstanceManager
       end
       
       options[:terminate] = false
-      opts.on( '-t', '--terminate-all', 'Terminates all instances running under a config key' ) do
+      opts.on( '-t', '--terminate-all', 'Terminates all instances running under a customer config key' ) do
         options[:terminate] = true
       end
 
       options[:start_launch_plan] = false
-      opts.on( '-l', '--start-launch-plan', 'Starts a launch plan under a config key' ) do
+      opts.on( '-l', '--start-launch-plan', 'Starts a launch plan under a customer config key' ) do
         options[:start_launch_plan] = true
       end
       
       options[:group] = nil
-      opts.on( '-g', '--group LAUNCH_GROUP_NAME', 'Starts a launch plan group under a config key' ) do |group|
+      opts.on( '-g', '--group LAUNCH_GROUP_NAME', 'Starts a launch plan group under a customer config key' ) do |group|
         options[:group] = group
       end
 
       options[:config] = nil
-      opts.on( '-c', '--config CONFIG_KEY', 'Sets the config key' ) do |key|
+      opts.on( '-c', '--config CONFIG_KEY', 'Sets the customer config key' ) do |key|
         options[:config] = key
       end
 

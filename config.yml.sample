@@ -5,12 +5,15 @@ default:
   ec2_server_region: "eu-west-1.ec2.amazonaws.com"
   key: 
   availability_zone: eu-west-1a
-  instance_type: m1.small
+  instance_type: t1.micro
+  architecture: x86_64
   launch_plan:
     group1:
       "ami_id_xxx1": 1
     group2:
-      "ami_id_xxx2": 1  
+      "ami_id_xxx2": 1
+	detailed:
+	  "ami_id_xxx3": "192.168.1.1;vol-xxx1@/dev/sdf,vol-xxx2@/dev/sdg"
 
 customer1:
   amazon_access_key_id: 
@@ -20,6 +23,7 @@ customer1:
   key: 
   availability_zone: eu-west-1a
   instance_type: m1.small
+  architecture: i386
   
 customer2:
   amazon_access_key_id: 
@@ -29,6 +33,7 @@ customer2:
   key: 
   availability_zone: eu-west-1a
   instance_type: m1.small
+  architecture: i386
   launch_plan:
     group1:
       ami_id_xxx1: 1

@@ -13,7 +13,7 @@ module Output
   
   def cancel_message(instances)
     puts red("Warning: Terminating all instances: #{instances.join(", ")}")
-    puts red("Please cancel within the next 5 seconds if this isn't want you want...")
+    puts red("Please press CTRL-C to cancel within the next 5 seconds if this isn't what you want...")
   end
   
   def green(str)

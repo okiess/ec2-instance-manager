@@ -49,7 +49,11 @@ module Status
         if vol["attachmentSet"]
           instance_id = vol["attachmentSet"]["item"].first["instanceId"]
         end
-        puts "#{white(vol["volumeId"])} (Size: #{vol["size"]} / Zone: #{vol["availabilityZone"]}) - #{vol["status"]} => #{instance_id.nil? ? 'unassigned' : instance_id}"
+        if vol["status"] == 'deleting'
+          puts "#{white(vol["volumeId"])} (Size: #{vol["size"]} / Zone: #{vol["availabilityZone"]}) - #{vol["status"]}"
+        else
+          puts "#{white(vol["volumeId"])} (Size: #{vol["size"]} / Zone: #{vol["availabilityZone"]}) - #{vol["status"]} => #{instance_id.nil? ? 'unassigned' : instance_id}"
+        end
       end
     else
       puts white("No volumes.")
