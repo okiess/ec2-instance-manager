@@ -117,14 +117,18 @@ module Launch
           result = launch_ami(group_ami_id_pair[0])
         }
       end
+      puts if ami_ids_to_launch.any?
       
       detailed_ami_ids_to_launch.each do |group_ami_id_pair|
-        ami_id = group_ami_id_pair[0]
+        your_instance_name = group_ami_id_pair[0]
         instance_assignments = group_ami_id_pair[1].split(";")
-        puts "Launching #{ami_id} with detailed information..."
+        ami_id = instance_assignments[0]
+        raise "Incomplete detailed launchplan definition." if instance_assignments.size < 3
         
-        architecture = instance_assignments[0]; instance_type = instance_assignments[1]
+        puts "Launching '#{your_instance_name}'..."
+        architecture = instance_assignments[1]; instance_type = instance_assignments[2]
         result = launch_ami(ami_id, {:instance_type => instance_type, :architecture => architecture})
+        
         if result and result["instancesSet"]["item"] and (instance_id = result["instancesSet"]["item"][0]["instanceId"])
           instance_state = ''
           while(instance_state != 'running') do
@@ -133,13 +137,13 @@ module Launch
             sleep 5
           end
 
-          if instance_assignments[2] and not instance_assignments[2].empty?
-            puts "Associating IP #{instance_assignments[2]}..."
-            result = ec2.associate_address(:instance_id => instance_id, :public_ip => instance_assignments[2])
+          if instance_assignments[3] and not instance_assignments[3].empty?
+            puts "Associating IP #{instance_assignments[3]}..."
+            result = ec2.associate_address(:instance_id => instance_id, :public_ip => instance_assignments[3])
           end
           
-          if instance_assignments[3] and not instance_assignments[3].empty?
-            volumes = instance_assignments[3].split(",")
+          if instance_assignments[4] and not instance_assignments[4].empty?
+            volumes = instance_assignments[4].split(",")
             volumes.each do |volume_pair|
               volume = volume_pair.split("@")
               puts "Attaching volume #{volume[0]} at mount point #{volume[1]}..."
@@ -147,9 +151,10 @@ module Launch
             end
           end
         end
+        puts
       end
 
-      puts white("All instances are launching now...")
+      puts white("Launchplan executed!")
     else
       puts white("No launch plan groups defined.")
     end
