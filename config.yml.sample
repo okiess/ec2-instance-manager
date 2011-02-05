@@ -1,4 +1,4 @@
-default:
+default: # Default customer config key
   amazon_access_key_id: 
   amazon_secret_access_key: 
   amazon_account_number: 
@@ -6,17 +6,18 @@ default:
   key: 
   availability_zone: eu-west-1a
   instance_type: t1.micro
-  architecture: x86_64
+  architecture: x86_64 #i386
   launch_plan:
-    group1:
-      "ami_id_xxx1": 1
-    group2:
+    webservers:
+      "ami_id_xxx1": 2
+    dbservers:
       "ami_id_xxx2": 1
 	detailed:
 	  "appserver1": "ami_id_xxx3;x86_64;t1.micro;"
 	  "appserver2": "ami_id_xxx3;x86_64;t1.micro;192.168.1.1;vol-xxx1@/dev/sdf,vol-xxx2@/dev/sdg"
+	  "appserver3": "ami_id_xxx3;x86_64;t1.micro;;vol-xxx3@/dev/sdf,vol-xxx4@/dev/sdg"
 
-customer1:
+customer1: # another AWS account
   amazon_access_key_id: 
   amazon_secret_access_key: 
   amazon_account_number: 
